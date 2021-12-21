@@ -24,11 +24,11 @@ export const Dzwiekowa: RoomsProvider = {
     city: 'Wrocław',
     logo: Logo,
     bookingUrl: 'https://dzwiekowa.pl/#rezerwacje',
-    getData: async (from: DateObject, to: DateObject): Promise<GetData> => {
+    getData: async (from: DateObject, to: DateObject, signal): Promise<GetData> => {
         const fromString = `${from.year}-${from.month}-${from.day}`;
         const toString = `${to.year}-${to.month}-${to.day}`;
         const url = `https://dzwiekowa.pl/system-rezerwacji/api/reservations?from=${fromString}&to=${toString}`
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: DataPayload = await response.json();
 
         const result = data.rooms.map(room => ({

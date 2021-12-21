@@ -1,4 +1,4 @@
-import { DateObject, GetData, RoomsProvider } from "./Interfaces";
+import { RoomsProvider } from "./Interfaces";
 import Logo from './images/Jama.png';
 
 interface ReservationPayload {
@@ -11,11 +11,11 @@ export const Jama: RoomsProvider = {
     city: 'Wrocław',
     logo: Logo,
     bookingUrl: 'https://www.jama.studio/rezerwacja',
-    getData: async (start: DateObject, end: DateObject): Promise<GetData> => {
+    getData: async (start, end, signal) => {
         const startString = `${start.year}-${String(start.month).padStart(2, '0')}-${String(start.day).padStart(2, '0')}`;
         const endString = `${end.year}-${String(end.month).padStart(2, '0')}-${String(end.day).padStart(2, '0')}`;
         const url = `https://api.jama.studio/api/bookings?start_at=${startString}&end_at=${endString}`
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: ReservationPayload[] = await response.json();
 
         return [{

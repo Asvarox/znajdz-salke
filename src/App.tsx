@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import * as Sentry from "@sentry/react";
 import { createRef, useEffect, useState } from 'react';
 import { SlotEntity, DateObject } from './rooms/providers/Interfaces';
 import findFreeSlots, { RoomStatus } from './rooms/findFreeSlots';
@@ -27,10 +28,26 @@ function App() {
   const calendar = createRef<FullCalendar>();
 
   useEffect(() => {
-    if (start && end) {
-      Promise.all(rooms.map(room => room.getData(start, end).then(data => findFreeSlots(start, end, data, room))))
-      .then(allData => setEvents(allData.flat()));
+    if (!start || !end) {
+      return;
     }
+    
+    const controller = new AbortController();
+    const promises = rooms.map(room => room.getData(start, end, controller.signal)
+      .then(data => findFreeSlots(start, end, data, room))
+      .catch(e => {
+        if (e instanceof DOMException) {
+          console.warn(e);
+        } else {
+          Sentry.captureException(e);
+        }
+
+        return [];
+      })
+    );
+    Promise.all(promises).then(roomData => setEvents(roomData.flat()));
+
+    return () => controller.abort();
   }, [start, end]);
 
   const freeSlots = mergeSlots(events.reduce<SlotEntity[]>((events, room) => ([

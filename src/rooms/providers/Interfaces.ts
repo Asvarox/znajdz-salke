@@ -26,5 +26,5 @@ export interface RoomsProviderData {
 }
 
 export interface RoomsProvider extends RoomsProviderData {
-    getData(from: DateObject, end: DateObject): Promise<GetData>,
+    getData(from: DateObject, end: DateObject, signal?: AbortSignal): Promise<GetData>,
 }

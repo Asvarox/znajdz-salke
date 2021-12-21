@@ -1,4 +1,4 @@
-import { DateObject, GetData, RoomsProvider } from "./Interfaces";
+import { RoomsProvider } from "./Interfaces";
 import Logo from './images/PlugAndPlay.png';
 
 
@@ -36,14 +36,14 @@ export const PlugAndPlay: RoomsProvider = {
     city: 'Wrocław',
     logo: Logo,
     bookingUrl: 'http://sala-prob.pl/rezerwacja',
-    getData: async (start: DateObject, end: DateObject): Promise<GetData> => {
+    getData: async (start, end, signal) => {
         const roomsData: RoomsPayload = await roomsDataRequest;
 
         const startString = `${String(start.day).padStart(2, '0')}.${String(start.month).padStart(2, '0')}.${start.year}`;
         const endString = `${String(end.day).padStart(2, '0')}.${String(end.month).padStart(2, '0')}.${end.year}`;
         
         const url = `http://app.blackfernsoft.pl/pp-client/reservations?firstDay=${startString}&lastDay=${endString}`
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: ReservationsPayload = await response.json();
 
         return roomsData.data.rehearsalRoomsList.map(room => ({
