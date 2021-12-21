@@ -6,7 +6,7 @@ import findFreeSlots, { RoomStatus } from './rooms/findFreeSlots';
 import mergeSlots from './rooms/mergeSlots';
 import { isAfter, isBefore } from 'date-fns';
 import Calendar from './components/Calendar';
-import { Col, Container, Row, Navbar, Alert } from 'react-bootstrap';
+import { Col, Container, Row, Navbar, Alert, Nav } from 'react-bootstrap';
 import inverseSlots from './rooms/inverseSlots';
 import rooms from './rooms';
 import Results from './components/Results';
@@ -31,7 +31,7 @@ function App() {
     if (!start || !end) {
       return;
     }
-    
+
     const controller = new AbortController();
     const promises = rooms.map(room => room.getData(start, end, controller.signal)
       .then(data => findFreeSlots(start, end, data, room))
@@ -62,6 +62,9 @@ function App() {
           <Navbar.Brand href="#home">
           Znajdź salkę
           </Navbar.Brand>
+          <Nav>
+            <Nav.Link href="https://github.com/Asvarox/znajdz-salke/">GitHub</Nav.Link>
+          </Nav>
         </Container>
       </Navbar>
       <Results rooms={filteredRooms} show={show} onClose={() => setShow(false)} selectedSlot={selectedSlot} />
