@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/znajdz-salke/static/css/main.453b5504.css",
-    "main.js": "/znajdz-salke/static/js/main.65708c90.js",
+    "main.js": "/znajdz-salke/static/js/main.21548937.js",
     "static/media/PlugAndPlay.png": "/znajdz-salke/static/media/PlugAndPlay.4ca9f03110f458646e03.png",
     "static/media/Dzwiekowa.png": "/znajdz-salke/static/media/Dzwiekowa.2a3cf3d0b6564f5203af.png",
     "index.html": "/znajdz-salke/index.html",
     "main.453b5504.css.map": "/znajdz-salke/static/css/main.453b5504.css.map",
-    "main.65708c90.js.map": "/znajdz-salke/static/js/main.65708c90.js.map"
+    "main.21548937.js.map": "/znajdz-salke/static/js/main.21548937.js.map"
   },
   "entrypoints": [
     "static/css/main.453b5504.css",
-    "static/js/main.65708c90.js"
+    "static/js/main.21548937.js"
   ]
 }
