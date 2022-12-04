@@ -26,6 +26,7 @@ function App() {
   const [selectedSlot, setSelectedSlot] = useState<SlotEntity | null>(null);
   const [filteredRooms, setFilteredRooms] = useState<RoomStatus[]>([]);
   const calendar = createRef<FullCalendar>();
+  const [loaded, setLoaded] = useState<string[]>([]);
 
   useEffect(() => {
     if (!start || !end) {
@@ -33,7 +34,10 @@ function App() {
     }
 
     const controller = new AbortController();
-    const promises = rooms.map(room => room.getData(start, end, controller.signal)
+    setEvents([]);
+    setLoaded([]);
+
+    rooms.map(room => room.getData(start, end, controller.signal)
       .then(data => findFreeSlots(start, end, data, room))
       .catch(e => {
         if (e instanceof DOMException) {
@@ -44,8 +48,9 @@ function App() {
 
         return [];
       })
+        .then(data => setEvents(current => [...current, ...data]))
+        .then(() => setLoaded(current => [...current, room.name]))
     );
-    Promise.all(promises).then(roomData => setEvents(roomData.flat()));
 
     return () => controller.abort();
   }, [start, end]);
@@ -87,6 +92,7 @@ function App() {
             <Alert variant="info" className="d-xs-block d-md-none">
               Przytrzymaj wybraną godzinę az nie podświetli się na czarno - wtedy przeciągnij aby określić długość.
             </Alert>
+            <span>Załadowano: {rooms.map(room => `${loaded.includes(room.name) ? '✅' : '🔲'} ${room.name}`).join(', ')}</span>
             <Calendar
               ref={calendar}
               bookedSlots={bookedSlots}
