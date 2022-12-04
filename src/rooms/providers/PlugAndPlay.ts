@@ -41,14 +41,14 @@ export const PlugAndPlay: RoomsProvider = {
 
         const startString = `${String(start.day).padStart(2, '0')}.${String(start.month).padStart(2, '0')}.${start.year}`;
         const endString = `${String(end.day).padStart(2, '0')}.${String(end.month).padStart(2, '0')}.${end.year}`;
-        
+
         const url = `http://app.blackfernsoft.pl/pp-client/reservations?firstDay=${startString}&lastDay=${endString}`
         const response = await fetch(`https://at-cors-anywhere.fly.dev/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: ReservationsPayload = await response.json();
 
         return roomsData.data.rehearsalRoomsList.map(room => ({
             name: `Sala ${room.name}`,
-            address: room.address.replace('\\ UWAGA ! Wszelkie usterki i awarie prosze zglaszac od razu smsem na nr 509378820', '').trim(),
+            address: room.address.split('\\')[0],
             color: colorMaps[room.name] ?? '#575757',
             bookedSlots: data.data.calendarReservations
                 .filter(reservation => reservation.rehearsalRoomName === room.name)
