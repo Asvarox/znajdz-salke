@@ -37,7 +37,7 @@ function Results(props: Props) {
                         <span style={{ color: room.color }}>■ </span>
                         {room.name} ({room.address})
                       </Card.Subtitle>
-                      <Card.Link href={room.metaData.bookingUrl}>Przejdź do rezerwacji</Card.Link>
+                      <Card.Link href={room.metaData.bookingUrl} target="_blank">Przejdź do rezerwacji</Card.Link>
                     </Card.Body>
                   </Col>
                 </Row>

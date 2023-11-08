@@ -21,7 +21,7 @@ interface ReservationsPayload {
     },
 }
 
-const roomsDataRequest = fetch(`https://at-cors-anywhere.fly.dev/raw?url=${encodeURIComponent('http://app.blackfernsoft.pl/pp-client/rehearsalRooms')}`)
+const roomsDataRequest = fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('http://app.blackfernsoft.pl/pp-client/rehearsalRooms')}`)
     .then(response => response.json());
 
 const colorMaps: { [name: string]: string } = {
@@ -35,7 +35,7 @@ export const PlugAndPlay: RoomsProvider = {
     name: 'Plug & Play',
     city: 'Wrocław',
     logo: Logo,
-    bookingUrl: 'http://sala-prob.pl/rezerwacja',
+    bookingUrl: 'http://www.sala-prob.pl/rezerwacja.html',
     getData: async (start, end, signal) => {
         const roomsData: RoomsPayload = await roomsDataRequest;
 
@@ -43,7 +43,7 @@ export const PlugAndPlay: RoomsProvider = {
         const endString = `${String(end.day).padStart(2, '0')}.${String(end.month).padStart(2, '0')}.${end.year}`;
 
         const url = `http://app.blackfernsoft.pl/pp-client/reservations?firstDay=${startString}&lastDay=${endString}`
-        const response = await fetch(`https://at-cors-anywhere.fly.dev/raw?url=${encodeURIComponent(url)}`, { signal });
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: ReservationsPayload = await response.json();
 
         return roomsData.data.rehearsalRoomsList.map(room => ({

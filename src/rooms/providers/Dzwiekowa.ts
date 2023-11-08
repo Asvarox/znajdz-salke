@@ -28,7 +28,7 @@ export const Dzwiekowa: RoomsProvider = {
         const fromString = `${from.year}-${from.month}-${from.day}`;
         const toString = `${to.year}-${to.month}-${to.day}`;
         const url = `https://dzwiekowa.pl/system-rezerwacji/api/reservations?from=${fromString}&to=${toString}`
-        const response = await fetch(`https://at-cors-anywhere.fly.dev/raw?url=${encodeURIComponent(url)}`, { signal });
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, { signal });
         const data: DataPayload = await response.json();
 
         const result = data.rooms.map(room => ({

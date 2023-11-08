@@ -34,7 +34,7 @@ function SlotForm({ slotDuration, onSlotDurationChange, selectedSlot, onSelected
     <Form className="mb-3">
       <Form.Group controlId='slot-length' className="mb-3">
         <Form.Label>
-          Min. długość wolnego miejsca:
+          Ile minimalnie ma trwać próba:
         </Form.Label>
         <InputGroup>
           <Button disabled={slotDuration <= 30} onClick={() => onSlotDurationChange(slotDuration - 30)}>-</Button>
